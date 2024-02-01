@@ -1,4 +1,4 @@
-package com.cris.rpgnext.model;
+package com.cris.rpgnext.entity;
 
 import jakarta.persistence.*;
 
