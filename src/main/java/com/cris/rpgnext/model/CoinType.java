@@ -3,8 +3,8 @@ package com.cris.rpgnext.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "coins")
-public class Coin {
+@Table(name = "coin_types")
+public class CoinType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
