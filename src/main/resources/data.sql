@@ -1,3 +1,9 @@
+INSERT INTO coin_types (name, description)
+VALUES
+    ('Gold', 'Gold description'),
+    ('Silver', 'Silver description'),
+    ('Bronze', 'Bronze description');
+
 INSERT INTO levels (level, exp_next_level)
 VALUES
     (1, 100),

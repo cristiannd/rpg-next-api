@@ -9,4 +9,7 @@ public class CoinAmount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer amount;
+    @ManyToOne
+    @JoinColumn(name = "coin_type_id")
+    private CoinType coinType;
 }

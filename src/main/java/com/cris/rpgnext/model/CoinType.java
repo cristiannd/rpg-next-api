@@ -2,6 +2,8 @@ package com.cris.rpgnext.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "coin_types")
 public class CoinType {
@@ -10,4 +12,7 @@ public class CoinType {
     private Long id;
     private String name;
     private String description;
+    @OneToMany(mappedBy = "coinType")
+    private List<CoinAmount> coinAmounts;
+
 }
