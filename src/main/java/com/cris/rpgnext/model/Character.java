@@ -2,6 +2,8 @@ package com.cris.rpgnext.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "characters")
 public class Character {
@@ -17,4 +19,6 @@ public class Character {
     @ManyToOne
     @JoinColumn(name = "level_id")
     private Level level;
+    @OneToMany(mappedBy = "character")
+    private List<Wallet> wallet;
 }

@@ -2,6 +2,8 @@ package com.cris.rpgnext.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "coin_amount")
 public class CoinAmount {
@@ -12,4 +14,6 @@ public class CoinAmount {
     @ManyToOne
     @JoinColumn(name = "coin_type_id")
     private CoinType coinType;
+    @OneToMany(mappedBy = "coinAmount")
+    private List<Wallet> wallet;
 }
