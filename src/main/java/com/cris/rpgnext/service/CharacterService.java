@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 public class CharacterService implements ICharacterService {
   @Autowired
   private CharacterRepository characterRepository;
+
   @Autowired
-  private LevelRepository levelRepository;
+  private ILevelService levelService;
 
   @Override
   public void getExperience(Long characterId, Integer experience) throws Exception {
@@ -20,24 +21,16 @@ public class CharacterService implements ICharacterService {
             .findById(characterId)
             .orElseThrow(() -> new RuntimeException("The character does not exist."));
 
-    Integer actualExp = character.getExperience();
-    Integer updatedExp = actualExp + experience;
+    Integer updatedExp = character.getExperience() + experience;
     Integer expToNextLevel = character.getLevel().getExpNextLevel();
 
     if (updatedExp < expToNextLevel) {
       character.setExperience(updatedExp);
     } else {
-      Long nextLevelId = character.getLevel().getId() + 1;
-
-      // TODO: What should I do when there are no more levels?
-      Level nextLevel = levelRepository
-              .findById(nextLevelId)
-              .orElseThrow(() -> new IllegalStateException("Next level not found."));
-
+      Level nextLevel = levelService.getNextLevel(character.getLevel());
       character.setLevel(nextLevel);
-      Integer actualMaxExp = character.getLevel().getExpNextLevel();
-      Integer exceededExperience = updatedExp - actualMaxExp;
 
+      Integer exceededExperience = updatedExp - expToNextLevel;
       character.setExperience(exceededExperience);
     }
 
