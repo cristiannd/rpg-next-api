@@ -14,4 +14,7 @@ public class Character {
     private Integer totalStamina;
     private Integer actualLife;
     private Integer totalLife;
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    private Level level;
 }
