@@ -1,12 +1,18 @@
 package com.cris.rpgnext.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "quests")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Quest {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,9 @@
 package com.cris.rpgnext.repository;
 
-import com.cris.rpgnext.entity.Level;
+import com.cris.rpgnext.entity.Quest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LevelRepository extends JpaRepository<Level, Long> {
+public interface QuestRepository extends JpaRepository<Quest, Long> {
 }
