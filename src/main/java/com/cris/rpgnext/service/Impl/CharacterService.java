@@ -61,9 +61,7 @@ public class CharacterService implements ICharacterService {
 
   @Override
   public CharacterQuestDTO startQuest(Long characterId, Long questId) {
-    // Get a character
     Character character = getCharacter(characterId);
-    // Get a quest
     Quest quest = questService.getQuest(questId);
 
     return characterQuestService.createCharacterQuest(character, quest);

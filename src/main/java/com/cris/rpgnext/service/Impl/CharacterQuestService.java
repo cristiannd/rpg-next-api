@@ -32,12 +32,14 @@ public class CharacterQuestService implements ICharacterQuestService {
     CharacterQuest savedCharacterQuest = characterQuestRepository.save(characterQuest);
 
     QuestDTO savedQuestDTO = QuestDTO.builder()
+            .id(savedCharacterQuest.getQuest().getId())
             .name(savedCharacterQuest.getQuest().getName())
             .description(savedCharacterQuest.getQuest().getDescription())
             .duration(savedCharacterQuest.getQuest().getDuration())
             .build();
 
     return CharacterQuestDTO.builder()
+            .id(savedCharacterQuest.getId())
             .status(savedCharacterQuest.getStatus())
             .startDate(savedCharacterQuest.getStartDate())
             .quest(savedQuestDTO)
