@@ -1,7 +1,7 @@
 package com.cris.rpgnext.service;
 
-import com.cris.rpgnext.entity.Quest;
+import com.cris.rpgnext.dto.QuestDTO;
 
 public interface IQuestService {
-  Quest getQuest(Long questId);
+  QuestDTO getQuest(Long questId);
 }

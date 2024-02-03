@@ -1,42 +1,43 @@
 package com.cris.rpgnext.service.Impl;
 
+import com.cris.rpgnext.dto.CharacterDTO;
 import com.cris.rpgnext.dto.CharacterQuestDTO;
 import com.cris.rpgnext.dto.QuestDTO;
 import com.cris.rpgnext.entity.Character;
-import com.cris.rpgnext.entity.CharacterQuest;
 import com.cris.rpgnext.entity.Level;
-import com.cris.rpgnext.entity.Quest;
 import com.cris.rpgnext.repository.CharacterRepository;
 import com.cris.rpgnext.service.ICharacterQuestService;
 import com.cris.rpgnext.service.ICharacterService;
 import com.cris.rpgnext.service.ILevelService;
 import com.cris.rpgnext.service.IQuestService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CharacterService implements ICharacterService {
+
   @Autowired
   private CharacterRepository characterRepository;
-
   @Autowired
   private ILevelService levelService;
-
   @Autowired
   private IQuestService questService;
-
   @Autowired
   private ICharacterQuestService characterQuestService;
+  @Autowired
+  private ModelMapper modelMapper;
 
-  @Override
-  public Character getCharacter(Long characterId) {
+  private Character getCharacter(Long characterId) {
     return characterRepository
             .findById(characterId)
             .orElseThrow(() -> new RuntimeException("The founded character is not exist."));
   }
 
   @Override
-  public void getExperience(Long characterId, Integer experience) throws Exception {
+  public void getExperience(Long characterId, Integer experience) {
     Character character = characterRepository
             .findById(characterId)
             .orElseThrow(() -> new RuntimeException("The character does not exist."));
@@ -57,13 +58,21 @@ public class CharacterService implements ICharacterService {
     characterRepository.save(character);
   }
 
-  // TODO: Create a upLevel method to separate the logic of the getExperience()
-
   @Override
   public CharacterQuestDTO startQuest(Long characterId, Long questId) {
     Character character = getCharacter(characterId);
-    Quest quest = questService.getQuest(questId);
+    CharacterDTO characterDTO = modelMapper.map(character, CharacterDTO.class);
+    QuestDTO quest = questService.getQuest(questId);
 
-    return characterQuestService.createCharacterQuest(character, quest);
+    return characterQuestService.createCharacterQuest(characterDTO, quest);
+  }
+
+  @Override
+  public CharacterQuestDTO completeQuest(Long characterQuestId) {
+    characterQuestService.getCharacterQuest(characterQuestId);
+
+    return null;
   }
 }
+
+
