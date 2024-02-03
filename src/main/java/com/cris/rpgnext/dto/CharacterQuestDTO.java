@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 @Builder
 public class CharacterQuestDTO {
+
   private Long id;
   private QuestStatus status;
   private Date startDate;
