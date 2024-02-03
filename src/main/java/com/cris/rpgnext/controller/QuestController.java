@@ -23,4 +23,9 @@ public class QuestController {
   public ResponseEntity<CharacterQuestDTO> completeQuest(@RequestParam Long characterQuestId) {
     return new ResponseEntity<>(characterService.completeQuest(characterQuestId), HttpStatus.OK);
   }
+
+  @PostMapping("/cancel")
+  public ResponseEntity<CharacterQuestDTO> cancelQuest(@RequestParam Long characterQuestId) {
+    return new ResponseEntity<>(characterService.cancelQuest(characterQuestId), HttpStatus.OK);
+  }
 }

@@ -81,9 +81,18 @@ public class CharacterService implements ICharacterService {
     int questDuration = characterQuestDTO.getQuest().getDuration();
     long timeInQuest = duration.getSeconds();
 
-//    if(timeInQuest < questDuration) throw new RuntimeException("The quest has not completed.");
+    if(timeInQuest < questDuration) throw new RuntimeException("The quest has not completed.");
 
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
+  }
+
+  @Override
+  public CharacterQuestDTO cancelQuest(Long characterQuestId) {
+    CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
+
+    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new RuntimeException("Only quests in progress can be cancelled.");
+
+    return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.CANCELED);
   }
 }
 

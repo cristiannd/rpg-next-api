@@ -6,4 +6,5 @@ public interface ICharacterService {
     void getExperience(Long characterId, Integer experience);
     CharacterQuestDTO startQuest(Long characterId, Long questId);
     CharacterQuestDTO completeQuest(Long characterQuestId);
+    CharacterQuestDTO cancelQuest(Long characterQuestId);
 }
