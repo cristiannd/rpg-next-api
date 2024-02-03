@@ -42,14 +42,7 @@ public class CharacterQuestService implements ICharacterQuestService {
 
     CharacterQuest savedCharacterQuest = characterQuestRepository.save(characterQuest);
 
-    QuestDTO savedQuestDTO = modelMapper.map(savedCharacterQuest.getQuest(), QuestDTO.class);
-
-    return CharacterQuestDTO.builder()
-            .id(savedCharacterQuest.getId())
-            .status(savedCharacterQuest.getStatus())
-            .startDate(savedCharacterQuest.getStartDate())
-            .quest(savedQuestDTO)
-            .build();
+    return modelMapper.map(savedCharacterQuest, CharacterQuestDTO.class);
   }
 
   @Override
@@ -58,14 +51,7 @@ public class CharacterQuestService implements ICharacterQuestService {
             .findById(characterQuestId)
             .orElseThrow(() -> new RuntimeException("The quest has not started."));
 
-    QuestDTO questDTO = modelMapper.map(characterQuest.getQuest(), QuestDTO.class);
-
-    return CharacterQuestDTO.builder()
-            .id(characterQuest.getId())
-            .status(characterQuest.getStatus())
-            .startDate(characterQuest.getStartDate())
-            .quest(questDTO)
-            .build();
+    return modelMapper.map(characterQuest, CharacterQuestDTO.class);
   }
 
   @Override
