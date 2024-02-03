@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -65,5 +64,17 @@ public class CharacterQuestService implements ICharacterQuestService {
             .startDate(characterQuest.getStartDate())
             .quest(questDTO)
             .build();
+  }
+
+  @Override
+  public CharacterQuestDTO updateCharacterQuestStatus(Long characterQuestId, QuestStatus status) {
+    CharacterQuest characterQuest = characterQuestRepository
+            .findById(characterQuestId)
+            .orElseThrow(() -> new RuntimeException("The quest has not started."));
+
+    characterQuest.setStatus(status);
+    characterQuestRepository.save(characterQuest);
+
+    return modelMapper.map(characterQuest, CharacterQuestDTO.class);
   }
 }

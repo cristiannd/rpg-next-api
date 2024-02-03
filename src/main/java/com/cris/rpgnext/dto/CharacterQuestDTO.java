@@ -1,14 +1,15 @@
 package com.cris.rpgnext.dto;
 
 import com.cris.rpgnext.entity.enums.QuestStatus;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CharacterQuestDTO {
 
   private Long id;

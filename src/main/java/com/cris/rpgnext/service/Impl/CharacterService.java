@@ -5,6 +5,7 @@ import com.cris.rpgnext.dto.CharacterQuestDTO;
 import com.cris.rpgnext.dto.QuestDTO;
 import com.cris.rpgnext.entity.Character;
 import com.cris.rpgnext.entity.Level;
+import com.cris.rpgnext.entity.enums.QuestStatus;
 import com.cris.rpgnext.repository.CharacterRepository;
 import com.cris.rpgnext.service.ICharacterQuestService;
 import com.cris.rpgnext.service.ICharacterService;
@@ -15,8 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -74,8 +75,15 @@ public class CharacterService implements ICharacterService {
   public CharacterQuestDTO completeQuest(Long characterQuestId) {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
     LocalDateTime startDate = characterQuestDTO.getStartDate();
+    LocalDateTime actualDate = LocalDateTime.now();
+    Duration duration = Duration.between(startDate, actualDate);
 
-    return null;
+    int questDuration = characterQuestDTO.getQuest().getDuration();
+    long timeInQuest = duration.getSeconds();
+
+//    if(timeInQuest < questDuration) throw new RuntimeException("The quest has not completed.");
+
+    return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
   }
 }
 

@@ -18,4 +18,9 @@ public class QuestController {
   public ResponseEntity<CharacterQuestDTO> startQuest(@RequestParam Long characterId, @RequestParam Long questId) {
     return new ResponseEntity<>(characterService.startQuest(characterId, questId), HttpStatus.CREATED);
   }
+
+  @PostMapping("/complete")
+  public ResponseEntity<CharacterQuestDTO> completeQuest(@RequestParam Long characterQuestId) {
+    return new ResponseEntity<>(characterService.completeQuest(characterQuestId), HttpStatus.OK);
+  }
 }

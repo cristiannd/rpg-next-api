@@ -2,16 +2,17 @@ package com.cris.rpgnext.entity;
 
 import com.cris.rpgnext.entity.enums.QuestStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "character_quests")
 @Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CharacterQuest {
 
   @Id
