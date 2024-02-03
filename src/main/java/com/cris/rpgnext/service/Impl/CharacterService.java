@@ -15,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 @AllArgsConstructor
 public class CharacterService implements ICharacterService {
@@ -69,7 +72,8 @@ public class CharacterService implements ICharacterService {
 
   @Override
   public CharacterQuestDTO completeQuest(Long characterQuestId) {
-    characterQuestService.getCharacterQuest(characterQuestId);
+    CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
+    LocalDateTime startDate = characterQuestDTO.getStartDate();
 
     return null;
   }

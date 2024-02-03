@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,5 +24,5 @@ public class CharacterQuest {
   @JoinColumn(name = "quest_id")
   private Quest quest;
   private QuestStatus status;
-  private Date startDate;
+  private LocalDateTime startDate;
 }

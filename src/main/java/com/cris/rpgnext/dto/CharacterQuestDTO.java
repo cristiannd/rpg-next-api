@@ -4,6 +4,7 @@ import com.cris.rpgnext.entity.enums.QuestStatus;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -12,6 +13,6 @@ public class CharacterQuestDTO {
 
   private Long id;
   private QuestStatus status;
-  private Date startDate;
+  private LocalDateTime startDate;
   private QuestDTO quest;
 }
