@@ -23,6 +23,7 @@ public class Quest {
   private Integer duration;
   private Integer minExperience;
   private Integer maxExperience;
+  private Integer energyCost;
   @ManyToMany(mappedBy = "quest")
   private Set<CharacterQuest> characters = new HashSet<>();
 }

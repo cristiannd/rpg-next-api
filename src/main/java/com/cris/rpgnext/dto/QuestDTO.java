@@ -13,4 +13,5 @@ public class QuestDTO {
   private Integer duration;
   private Integer minExperience;
   private Integer maxExperience;
+  private Integer energyCost;
 }
