@@ -1,6 +1,7 @@
 package com.cris.rpgnext.controller;
 
 import com.cris.rpgnext.dto.CharacterQuestDTO;
+import com.cris.rpgnext.exception.IncorrectStatusException;
 import com.cris.rpgnext.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class QuestController {
   }
 
   @PostMapping("/complete")
-  public ResponseEntity<CharacterQuestDTO> completeQuest(@RequestParam Long characterQuestId) {
+  public ResponseEntity<CharacterQuestDTO> completeQuest(@RequestParam Long characterQuestId) throws IncorrectStatusException {
     return new ResponseEntity<>(characterService.completeQuest(characterQuestId), HttpStatus.OK);
   }
 
   @PostMapping("/cancel")
-  public ResponseEntity<CharacterQuestDTO> cancelQuest(@RequestParam Long characterQuestId) {
+  public ResponseEntity<CharacterQuestDTO> cancelQuest(@RequestParam Long characterQuestId) throws IncorrectStatusException {
     return new ResponseEntity<>(characterService.cancelQuest(characterQuestId), HttpStatus.OK);
   }
 }

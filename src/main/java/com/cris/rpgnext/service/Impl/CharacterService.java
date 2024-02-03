@@ -6,6 +6,7 @@ import com.cris.rpgnext.dto.QuestDTO;
 import com.cris.rpgnext.entity.Character;
 import com.cris.rpgnext.entity.Level;
 import com.cris.rpgnext.entity.enums.QuestStatus;
+import com.cris.rpgnext.exception.IncorrectStatusException;
 import com.cris.rpgnext.repository.CharacterRepository;
 import com.cris.rpgnext.service.ICharacterQuestService;
 import com.cris.rpgnext.service.ICharacterService;
@@ -72,10 +73,10 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public CharacterQuestDTO completeQuest(Long characterQuestId) {
+  public CharacterQuestDTO completeQuest(Long characterQuestId) throws IncorrectStatusException {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
 
-    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new RuntimeException("Only quests in progress can be completed.");
+    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new IncorrectStatusException("Only quests in progress can be completed.");
 
     LocalDateTime startDate = characterQuestDTO.getStartDate();
     LocalDateTime actualDate = LocalDateTime.now();
@@ -90,10 +91,10 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public CharacterQuestDTO cancelQuest(Long characterQuestId) {
+  public CharacterQuestDTO cancelQuest(Long characterQuestId) throws IncorrectStatusException {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
 
-    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new RuntimeException("Only quests in progress can be cancelled.");
+    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new IncorrectStatusException("Only quests in progress can be cancelled.");
 
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.CANCELED);
   }
