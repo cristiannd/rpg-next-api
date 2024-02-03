@@ -74,6 +74,9 @@ public class CharacterService implements ICharacterService {
   @Override
   public CharacterQuestDTO completeQuest(Long characterQuestId) {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
+
+    if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new RuntimeException("Only quests in progress can be completed.");
+
     LocalDateTime startDate = characterQuestDTO.getStartDate();
     LocalDateTime actualDate = LocalDateTime.now();
     Duration duration = Duration.between(startDate, actualDate);
