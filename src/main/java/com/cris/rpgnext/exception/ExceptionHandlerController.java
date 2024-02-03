@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerController {
 
   @ExceptionHandler(IncorrectStatusException.class)
-  public ResponseEntity<String> handlerException(IncorrectStatusException ex) {
+  public ResponseEntity<String> incorrectStatusException(IncorrectStatusException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(StartQuestException.class)
+  public ResponseEntity<String> startQuestException(StartQuestException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }

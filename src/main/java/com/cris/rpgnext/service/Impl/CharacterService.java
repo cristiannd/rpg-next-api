@@ -4,9 +4,11 @@ import com.cris.rpgnext.dto.CharacterDTO;
 import com.cris.rpgnext.dto.CharacterQuestDTO;
 import com.cris.rpgnext.dto.QuestDTO;
 import com.cris.rpgnext.entity.Character;
+import com.cris.rpgnext.entity.CharacterQuest;
 import com.cris.rpgnext.entity.Level;
 import com.cris.rpgnext.entity.enums.QuestStatus;
 import com.cris.rpgnext.exception.IncorrectStatusException;
+import com.cris.rpgnext.exception.StartQuestException;
 import com.cris.rpgnext.repository.CharacterRepository;
 import com.cris.rpgnext.service.ICharacterQuestService;
 import com.cris.rpgnext.service.ICharacterService;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -64,7 +67,10 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public CharacterQuestDTO startQuest(Long characterId, Long questId) {
+  public CharacterQuestDTO startQuest(Long characterId, Long questId) throws StartQuestException {
+    List<CharacterQuestDTO> characterQuests = characterQuestService.getCharacterQuestByStatus(characterId, QuestStatus.IN_PROGRESS);
+    if(!characterQuests.isEmpty()) throw new StartQuestException("You can only have one quest in progress at a time.");
+
     Character character = getCharacter(characterId);
     CharacterDTO characterDTO = modelMapper.map(character, CharacterDTO.class);
     QuestDTO quest = questService.getQuest(questId);

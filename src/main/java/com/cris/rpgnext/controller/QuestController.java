@@ -2,6 +2,7 @@ package com.cris.rpgnext.controller;
 
 import com.cris.rpgnext.dto.CharacterQuestDTO;
 import com.cris.rpgnext.exception.IncorrectStatusException;
+import com.cris.rpgnext.exception.StartQuestException;
 import com.cris.rpgnext.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class QuestController {
   private ICharacterService characterService;
 
   @PostMapping("/start")
-  public ResponseEntity<CharacterQuestDTO> startQuest(@RequestParam Long characterId, @RequestParam Long questId) {
+  public ResponseEntity<CharacterQuestDTO> startQuest(@RequestParam Long characterId, @RequestParam Long questId) throws StartQuestException {
     return new ResponseEntity<>(characterService.startQuest(characterId, questId), HttpStatus.CREATED);
   }
 

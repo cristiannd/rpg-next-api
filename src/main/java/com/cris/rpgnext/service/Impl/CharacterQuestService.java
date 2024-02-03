@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -76,5 +78,13 @@ public class CharacterQuestService implements ICharacterQuestService {
     characterQuestRepository.save(characterQuest);
 
     return modelMapper.map(characterQuest, CharacterQuestDTO.class);
+  }
+
+  @Override
+  public List<CharacterQuestDTO> getCharacterQuestByStatus(Long characterQuestId, QuestStatus status) {
+    List<CharacterQuest> characterQuests = characterQuestRepository.findByCharacterIdAndStatus(characterQuestId, status);
+    return characterQuests.stream()
+            .map(characterQuest -> modelMapper.map(characterQuest, CharacterQuestDTO.class))
+            .collect(Collectors.toList());
   }
 }
