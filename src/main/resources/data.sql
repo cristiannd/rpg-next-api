@@ -11,7 +11,7 @@ INSERT INTO quests (name, description, duration, min_experience, max_experience)
 VALUES (
 	'The farmer needs help!',
     'Help the old village farmer collect the carrots from the garden and eliminate all the weeds.',
-	3000,
+	10,
     10,
     15
 );

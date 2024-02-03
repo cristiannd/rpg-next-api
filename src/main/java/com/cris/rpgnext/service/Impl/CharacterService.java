@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
@@ -45,10 +46,14 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public void getExperience(Long characterId, Integer experience) {
+  public void getExperience(Long characterId, Integer minExperience, Integer maxExperience) {
     Character character = characterRepository
             .findById(characterId)
             .orElseThrow(() -> new RuntimeException("The character does not exist."));
+
+    // Get a random experience value from the quest's minimum and maximum experience.
+    Random random = new Random();
+    int experience = random.nextInt(maxExperience - minExperience + 1) + minExperience;
 
     Integer updatedExp = character.getExperience() + experience;
     Integer expToNextLevel = character.getLevel().getExpNextLevel();
@@ -91,7 +96,12 @@ public class CharacterService implements ICharacterService {
     int questDuration = characterQuestDTO.getQuest().getDuration();
     long timeInQuest = duration.getSeconds();
 
-    if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not completed.");
+    if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left");
+
+    getExperience(
+            characterQuestDTO.getCharacter().getId(),
+            characterQuestDTO.getQuest().getMinExperience(),
+            characterQuestDTO.getQuest().getMaxExperience());
 
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
   }

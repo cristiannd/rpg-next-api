@@ -1,14 +1,11 @@
 package com.cris.rpgnext.dto;
 
-import com.cris.rpgnext.entity.CharacterQuest;
-import com.cris.rpgnext.entity.Level;
 import lombok.*;
-
-import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class CharacterDTO {
 
   private Long id;
@@ -18,6 +15,5 @@ public class CharacterDTO {
   private Integer totalStamina;
   private Integer actualLife;
   private Integer totalLife;
-  private Level level;
-  private Set<CharacterQuest> quests;
+  private LevelDTO level;
 }

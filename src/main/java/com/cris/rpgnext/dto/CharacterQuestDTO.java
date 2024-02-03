@@ -16,4 +16,5 @@ public class CharacterQuestDTO {
   private QuestStatus status;
   private LocalDateTime startDate;
   private QuestDTO quest;
+  private CharacterDTO character;
 }
