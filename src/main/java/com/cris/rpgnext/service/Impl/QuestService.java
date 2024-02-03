@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class QuestService implements IQuestService {
+
   @Autowired
   private QuestRepository questRepository;
 
