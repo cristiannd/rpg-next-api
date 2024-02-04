@@ -20,8 +20,8 @@ public class Character {
     private Long id;
     private String name;
     private Integer experience;
-    private Integer actualStamina;
-    private Integer totalStamina;
+    private Integer actualEnergy;
+    private Integer totalEnergy;
     private Integer actualLife;
     private Integer totalLife;
     @ManyToOne

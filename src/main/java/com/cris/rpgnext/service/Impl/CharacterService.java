@@ -76,11 +76,17 @@ public class CharacterService implements ICharacterService {
     List<CharacterQuestDTO> characterQuests = characterQuestService.getCharacterQuestByStatus(characterId, QuestStatus.IN_PROGRESS);
     if(!characterQuests.isEmpty()) throw new StartQuestException("You can only have one quest in progress at a time.");
 
+    QuestDTO questDTO = questService.getQuest(questId);
     Character character = getCharacter(characterId);
-    CharacterDTO characterDTO = modelMapper.map(character, CharacterDTO.class);
-    QuestDTO quest = questService.getQuest(questId);
 
-    return characterQuestService.createCharacterQuest(characterDTO, quest);
+    if(questDTO.getEnergyCost() > character.getActualEnergy()) throw new StartQuestException("You don't have enough energy to start this quest.");
+
+    character.setActualEnergy(character.getActualEnergy() - questDTO.getEnergyCost());
+    characterRepository.save(character);
+
+    CharacterDTO characterDTO = modelMapper.map(character, CharacterDTO.class);
+
+    return characterQuestService.createCharacterQuest(characterDTO, questDTO);
   }
 
   @Override
@@ -96,7 +102,7 @@ public class CharacterService implements ICharacterService {
     int questDuration = characterQuestDTO.getQuest().getDuration();
     long timeInQuest = duration.getSeconds();
 
-    if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left");
+    if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left.");
 
     getExperience(
             characterQuestDTO.getCharacter().getId(),
