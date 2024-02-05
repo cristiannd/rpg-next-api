@@ -29,4 +29,7 @@ public class ItemCategory {
 
   @OneToMany(mappedBy = "itemCategory")
   private Set<ArmorCategory> armorCategories = new HashSet<>();
+
+  @OneToMany(mappedBy = "itemCategory")
+  private Set<FoodCategory> foodCategories = new HashSet<>();
 }

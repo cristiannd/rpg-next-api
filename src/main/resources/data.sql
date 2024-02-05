@@ -34,6 +34,10 @@ VALUES ('Helmet', 2), ('Chest', 2), ('Pant', 2), ('Boot', 2);
 INSERT INTO armors (name, score, actual_durability, max_durability, defense, armor_category_id)
 VALUES ('Rag pants', 1, 10, 10, 1, 3), ('Old shirt', 1, 10, 10, 1, 2);
 
+-- Food categories
+INSERT INTO food_categories (name, item_category_id)
+VALUES ('Meat', 3), ('Vegetable', 3);
 
-
-
+-- Foods
+INSERT INTO foods (name, score, stamina_recovery, food_category_id)
+VALUES ('Roasted turkey leg', 4, 20, 1);
