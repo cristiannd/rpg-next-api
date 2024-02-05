@@ -6,13 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "armors")
+@Table(name = "armor_categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Armor {
+public class ArmorCategory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +24,10 @@ public class Armor {
   @Column(nullable = false, unique = true)
   private String name;
 
-  @Column(nullable = false)
-  private Integer score;
-
-  @Column(nullable = false)
-  private Integer actualDurability;
-
-  @Column(nullable = false)
-  private Integer maxDurability;
-
-  @Column(nullable = false)
-  private Integer defense;
-
   @ManyToOne
-  @JoinColumn(name = "armor_category_id", nullable = false)
-  private ArmorCategory armorCategory;
+  @JoinColumn(name = "item_category_id")
+  private ItemCategory itemCategory;
+
+  @OneToMany(mappedBy = "armorCategory")
+  private List<Armor> armors = new ArrayList<>();
 }

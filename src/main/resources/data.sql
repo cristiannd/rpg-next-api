@@ -26,6 +26,13 @@ VALUES ('Sword', 1), ('Axe', 1), ('Mace', 1), ('Bow', 1);
 INSERT INTO weapons (name, score, one_hand, physical_damage, actual_durability, max_durability, weapon_category_id)
 VALUES ('Wooden club', 1, true, 4, 10, 10, 3);
 
+-- Armor categories
+INSERT INTO armor_categories (name, item_category_id)
+VALUES ('Helmet', 2), ('Chest', 2), ('Pant', 2), ('Boot', 2);
+
+-- Armors
+INSERT INTO armors (name, score, actual_durability, max_durability, defense, armor_category_id)
+VALUES ('Rag pants', 1, 10, 10, 1, 3), ('Old shirt', 1, 10, 10, 1, 2);
 
 
 

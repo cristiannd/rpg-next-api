@@ -26,4 +26,7 @@ public class ItemCategory {
 
   @OneToMany(mappedBy = "itemCategory")
   private Set<WeaponCategory> weaponCategories = new HashSet<>();
+
+  @OneToMany(mappedBy = "itemCategory")
+  private Set<ArmorCategory> armorCategories = new HashSet<>();
 }
