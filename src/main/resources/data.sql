@@ -14,13 +14,17 @@ VALUES (
 );
 
 -- CREATE ITEMS:
--- Categories
+-- Item categories
 INSERT INTO item_categories (name)
-VALUES ('Sword'), ('Axe'), ('Mace');
+VALUES ('Weapon'), ('Armor'), ('Food');
 
--- Items
-INSERT INTO items (name, score, item_category_id)
-VALUES ('Wooden club', 1, 3), ('Small stone axe', 3, 2), ('Rusty iron sword', 3, 2);
+-- Weapon categories
+INSERT INTO weapon_categories (name, item_category_id)
+VALUES ('Sword', 1), ('Axe', 1), ('Mace', 1), ('Bow', 1);
+
+-- Weapons
+INSERT INTO weapons (name, score, one_hand, physical_damage, actual_durability, max_durability, weapon_category_id)
+VALUES ('Wooden club', 1, true, 4, 10, 10, 3);
 
 
 
