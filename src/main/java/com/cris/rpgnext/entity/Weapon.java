@@ -7,18 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "items")
-@NoArgsConstructor
+@Table(name = "weapons")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Item {
+public class Weapon {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private Integer score;
   private String name;
-  @ManyToOne
-  @JoinColumn(name = "item_category_id")
-  private ItemCategory itemCategory;
+  private Integer score;
+  private Boolean oneHand;
+  private Integer physicalDamage;
+  private Integer actualDurability;
+  private Integer maxDurability;
 }

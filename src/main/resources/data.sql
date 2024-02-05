@@ -13,6 +13,14 @@ VALUES (
 	10, 10, 15, 25
 );
 
+-- CREATE ITEMS:
+-- Categories
+INSERT INTO item_categories (name)
+VALUES ('Sword'), ('Axe'), ('Mace');
+
+-- Items
+INSERT INTO items (name, score, item_category_id)
+VALUES ('Wooden club', 1, 3), ('Small stone axe', 3, 2), ('Rusty iron sword', 3, 2);
 
 
 
