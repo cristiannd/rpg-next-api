@@ -15,8 +15,5 @@ import lombok.Setter;
 public class Food extends Item {
 
   @Column(nullable = false)
-  private Integer score;
-
-  @Column(nullable = false)
-  private Integer stamina_recovery;
+  private Integer staminaRecovery;
 }

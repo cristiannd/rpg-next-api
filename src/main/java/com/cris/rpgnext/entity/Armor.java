@@ -15,9 +15,6 @@ import lombok.Setter;
 public class Armor extends Item {
 
   @Column(nullable = false)
-  private Integer score;
-
-  @Column(nullable = false)
   private Integer actualDurability;
 
   @Column(nullable = false)

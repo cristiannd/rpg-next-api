@@ -15,9 +15,6 @@ import lombok.Setter;
 public class Weapon extends Item {
 
   @Column(nullable = false)
-  private Integer score;
-
-  @Column(nullable = false)
   private Boolean oneHand;
 
   @Column(nullable = false)

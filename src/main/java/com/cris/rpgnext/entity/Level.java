@@ -17,8 +17,13 @@ public class Level {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(nullable = false)
   private Integer level;
+
+  @Column(nullable = false)
   private Integer expNextLevel;
+
   @OneToMany(mappedBy = "level")
   private List<Character> characters;
 }

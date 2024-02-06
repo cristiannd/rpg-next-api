@@ -14,6 +14,9 @@ public abstract class Item {
   @Column(nullable = false)
   private String name;
 
+  @Column(nullable = false)
+  private Integer score;
+
   @ManyToOne
   @JoinColumn(name = "item_sub_category")
   private ItemSubCategory itemSubCategory;
