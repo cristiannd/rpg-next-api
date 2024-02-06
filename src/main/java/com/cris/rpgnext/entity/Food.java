@@ -12,22 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Food {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Column(nullable = false, unique = true)
-  private String name;
+public class Food extends Item {
 
   @Column(nullable = false)
   private Integer score;
 
   @Column(nullable = false)
   private Integer stamina_recovery;
-
-  @ManyToOne
-  @JoinColumn(name = "food_category_id", nullable = false)
-  private FoodCategory foodCategory;
 }

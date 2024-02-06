@@ -10,24 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "food_categories")
+@Table(name = "item_sub_categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class FoodCategory {
+public class ItemSubCategory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String name;
 
   @ManyToOne
   @JoinColumn(name = "item_category_id")
   private ItemCategory itemCategory;
 
-  @OneToMany(mappedBy = "foodCategory")
-  private List<Food> foods = new ArrayList<>();
+  @OneToMany(mappedBy = "itemSubCategory")
+  private List<Item> items = new ArrayList<>();
+
 }

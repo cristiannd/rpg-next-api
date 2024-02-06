@@ -1,9 +1,12 @@
 INSERT INTO levels (level, exp_next_level)
 VALUES (1, 10), (2, 20), (3, 30), (4, 40), (5, 50);
 
-INSERT INTO characters (name, experience, actual_energy, total_energy, actual_life, total_life, level_id)
+INSERT INTO inventory (id, max_weight)
+VALUES (1, 5);
+
+INSERT INTO characters (name, experience, actual_energy, total_energy, actual_life, total_life, level_id, inventory_id)
 VALUES
-    ('Cristian', 1, 100, 100, 100, 100, 1);
+    ('Cristian', 1, 100, 100, 100, 100, 1, 1);
 
 -- CREATE QUESTS:
 INSERT INTO quests (name, description, duration, min_experience, max_experience, energy_cost)
@@ -18,26 +21,19 @@ VALUES (
 INSERT INTO item_categories (name)
 VALUES ('Weapon'), ('Armor'), ('Food');
 
--- Weapon categories
-INSERT INTO weapon_categories (name, item_category_id)
-VALUES ('Sword', 1), ('Axe', 1), ('Mace', 1), ('Bow', 1);
+-- Item subcategories
+INSERT INTO
 
 -- Weapons
-INSERT INTO weapons (name, score, one_hand, physical_damage, actual_durability, max_durability, weapon_category_id)
-VALUES ('Wooden club', 1, true, 4, 10, 10, 3);
-
--- Armor categories
-INSERT INTO armor_categories (name, item_category_id)
-VALUES ('Helmet', 2), ('Chest', 2), ('Pant', 2), ('Boot', 2);
+INSERT INTO weapons (id, name, score, one_hand, physical_damage, actual_durability, max_durability, inventory_id)
+VALUES (1, 'Wooden club', 1, true, 4, 10, 10, 1);
 
 -- Armors
-INSERT INTO armors (name, score, actual_durability, max_durability, defense, armor_category_id)
-VALUES ('Rag pants', 1, 10, 10, 1, 3), ('Old shirt', 1, 10, 10, 1, 2);
-
--- Food categories
-INSERT INTO food_categories (name, item_category_id)
-VALUES ('Meat', 3), ('Vegetable', 3);
+INSERT INTO armors (id, name, score, actual_durability, max_durability, defense, inventory_id)
+VALUES
+    (1, 'Rag pants', 1, 10, 10, 1, 1),
+    (2, 'Old shirt', 1, 10, 10, 1, 1);
 
 -- Foods
-INSERT INTO foods (name, score, stamina_recovery, food_category_id)
-VALUES ('Roasted turkey leg', 4, 20, 1);
+INSERT INTO foods (id, name, score, stamina_recovery, inventory_id)
+VALUES (1, 'Roasted turkey leg', 4, 20, 1);

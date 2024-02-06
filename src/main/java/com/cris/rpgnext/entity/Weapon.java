@@ -12,15 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Weapon {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(nullable = false)
-  private Long id;
-
-  @Column(nullable = false)
-  private String name;
+public class Weapon extends Item {
 
   @Column(nullable = false)
   private Integer score;
@@ -36,8 +28,4 @@ public class Weapon {
 
   @Column(nullable = false)
   private Integer maxDurability;
-
-  @ManyToOne
-  @JoinColumn(name = "weapon_category_id", nullable = false)
-  private WeaponCategory weaponCategory;
 }

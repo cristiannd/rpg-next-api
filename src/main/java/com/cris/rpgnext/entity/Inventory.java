@@ -10,25 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "weapon_categories")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class WeaponCategory {
+public class Inventory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(nullable = false)
   private Long id;
 
-  @Column(nullable = false, unique = true)
-  private String name;
+  @Column(nullable = false)
+  private Integer maxWeight;
 
-  @OneToMany(mappedBy = "weaponCategory")
-  private List<Weapon> weapons = new ArrayList<>();
+  @OneToMany(mappedBy = "inventory")
+  private List<Item> items = new ArrayList<>();
 
-  @ManyToOne
-  @JoinColumn(name = "item_category_id", nullable = false)
-  private ItemCategory itemCategory;
+  @OneToOne(mappedBy = "inventory")
+  private Character character;
 }

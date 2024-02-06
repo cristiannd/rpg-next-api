@@ -25,11 +25,5 @@ public class ItemCategory {
   private String name;
 
   @OneToMany(mappedBy = "itemCategory")
-  private Set<WeaponCategory> weaponCategories = new HashSet<>();
-
-  @OneToMany(mappedBy = "itemCategory")
-  private Set<ArmorCategory> armorCategories = new HashSet<>();
-
-  @OneToMany(mappedBy = "itemCategory")
-  private Set<FoodCategory> foodCategories = new HashSet<>();
+  private Set<ItemSubCategory> itemSubCategories = new HashSet<>();
 }

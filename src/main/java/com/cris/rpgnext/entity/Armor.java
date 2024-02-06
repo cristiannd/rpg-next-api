@@ -12,14 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Armor {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Column(nullable = false, unique = true)
-  private String name;
+public class Armor extends Item {
 
   @Column(nullable = false)
   private Integer score;
@@ -32,8 +25,4 @@ public class Armor {
 
   @Column(nullable = false)
   private Integer defense;
-
-  @ManyToOne
-  @JoinColumn(name = "armor_category_id", nullable = false)
-  private ArmorCategory armorCategory;
 }
