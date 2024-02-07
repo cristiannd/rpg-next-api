@@ -29,14 +29,12 @@ public class Quest {
   private Integer duration;
 
   @Column(nullable = false)
-  private Integer minExperience;
-
-  @Column(nullable = false)
-  private Integer maxExperience;
-
-  @Column(nullable = false)
   private Integer energyCost;
 
   @ManyToMany(mappedBy = "quest")
   private Set<CharacterQuest> characters = new HashSet<>();
+
+  @OneToOne
+  @JoinColumn(name = "reward_id")
+  private Reward reward;
 }

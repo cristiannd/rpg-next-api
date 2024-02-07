@@ -1,6 +1,10 @@
 package com.cris.rpgnext.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "items")
@@ -24,4 +28,8 @@ public abstract class Item {
   @ManyToOne
   @JoinColumn(name = "inventory_id")
   private Inventory inventory;
+
+  @ManyToOne
+  @JoinColumn(name = "reward_id")
+  private Reward reward;
 }
