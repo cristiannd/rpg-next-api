@@ -3,17 +3,16 @@ package com.cris.rpgnext.service.Impl;
 import com.cris.rpgnext.dto.CharacterDTO;
 import com.cris.rpgnext.dto.CharacterQuestDTO;
 import com.cris.rpgnext.dto.QuestDTO;
+import com.cris.rpgnext.dto.RewardDTO;
 import com.cris.rpgnext.entity.Character;
 import com.cris.rpgnext.entity.CharacterQuest;
+import com.cris.rpgnext.entity.Item;
 import com.cris.rpgnext.entity.Level;
 import com.cris.rpgnext.entity.enums.QuestStatus;
 import com.cris.rpgnext.exception.IncorrectStatusException;
 import com.cris.rpgnext.exception.StartQuestException;
 import com.cris.rpgnext.repository.CharacterRepository;
-import com.cris.rpgnext.service.ICharacterQuestService;
-import com.cris.rpgnext.service.ICharacterService;
-import com.cris.rpgnext.service.ILevelService;
-import com.cris.rpgnext.service.IQuestService;
+import com.cris.rpgnext.service.*;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +29,18 @@ public class CharacterService implements ICharacterService {
 
   @Autowired
   private CharacterRepository characterRepository;
+
   @Autowired
   private ILevelService levelService;
+
   @Autowired
   private IQuestService questService;
+
   @Autowired
   private ICharacterQuestService characterQuestService;
+
+  private IRewardService rewardService;
+
   @Autowired
   private ModelMapper modelMapper;
 
@@ -45,15 +50,10 @@ public class CharacterService implements ICharacterService {
             .orElseThrow(() -> new RuntimeException("The founded character is not exist."));
   }
 
-  @Override
-  public void getExperience(Long characterId, Integer minExperience, Integer maxExperience) {
+  private void getExperience(Long characterId, Integer experience) {
     Character character = characterRepository
             .findById(characterId)
             .orElseThrow(() -> new RuntimeException("The character does not exist."));
-
-    // Get a random experience value from the quest's minimum and maximum experience.
-    Random random = new Random();
-    int experience = random.nextInt(maxExperience - minExperience + 1) + minExperience;
 
     Integer updatedExp = character.getExperience() + experience;
     Integer expToNextLevel = character.getLevel().getExpNextLevel();
@@ -67,6 +67,14 @@ public class CharacterService implements ICharacterService {
       Integer exceededExperience = updatedExp - expToNextLevel;
       character.setExperience(exceededExperience);
     }
+
+    characterRepository.save(character);
+  }
+
+  private void getItems(Long characterId, List<Item> items) {
+    Character character = getCharacter(characterId);
+
+    items.forEach(item -> character.getInventory().getItems().add(item));
 
     characterRepository.save(character);
   }
@@ -90,7 +98,7 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public CharacterQuestDTO completeQuest(Long characterQuestId) throws IncorrectStatusException {
+  public CharacterQuestDTO completeQuest(Long characterQuestId) throws Exception {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
 
     if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new IncorrectStatusException("Only quests in progress can be completed.");
@@ -104,12 +112,13 @@ public class CharacterService implements ICharacterService {
 
     if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left.");
 
-//    getExperience(
-//            characterQuestDTO.getCharacter().getId(),
-//            characterQuestDTO.getQuest().getMinExperience(),
-//            characterQuestDTO.getQuest().getMaxExperience());
+    RewardDTO rewardDTO = rewardService.getRewardById(characterQuestDTO.getQuest().getId());
 
+    getExperience(
+            characterQuestDTO.getCharacter().getId(),
+            rewardDTO.getExperience());
 
+    !rewardDTO.getItems().isEmpty()
 
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
   }
