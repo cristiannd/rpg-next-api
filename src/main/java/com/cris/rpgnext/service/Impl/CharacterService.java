@@ -104,10 +104,12 @@ public class CharacterService implements ICharacterService {
 
     if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left.");
 
-    getExperience(
-            characterQuestDTO.getCharacter().getId(),
-            characterQuestDTO.getQuest().getMinExperience(),
-            characterQuestDTO.getQuest().getMaxExperience());
+//    getExperience(
+//            characterQuestDTO.getCharacter().getId(),
+//            characterQuestDTO.getQuest().getMinExperience(),
+//            characterQuestDTO.getQuest().getMaxExperience());
+
+
 
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
   }

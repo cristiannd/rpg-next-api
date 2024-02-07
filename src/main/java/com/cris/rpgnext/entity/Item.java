@@ -9,6 +9,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "items")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Getter
 public abstract class Item {
 
   @Id
