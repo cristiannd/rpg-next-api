@@ -1,6 +1,7 @@
 package com.cris.rpgnext.controller;
 
 import com.cris.rpgnext.dto.CharacterQuestDTO;
+import com.cris.rpgnext.dto.CompletedQuestDTO;
 import com.cris.rpgnext.exception.IncorrectStatusException;
 import com.cris.rpgnext.exception.StartQuestException;
 import com.cris.rpgnext.service.ICharacterService;
@@ -22,7 +23,7 @@ public class QuestController {
   }
 
   @PostMapping("/complete")
-  public ResponseEntity<CharacterQuestDTO> completeQuest(@RequestParam Long characterQuestId) throws IncorrectStatusException {
+  public ResponseEntity<CompletedQuestDTO> completeQuest(@RequestParam Long characterQuestId) throws Exception {
     return new ResponseEntity<>(characterService.completeQuest(characterQuestId), HttpStatus.OK);
   }
 

@@ -11,7 +11,5 @@ public class QuestDTO {
   private String name;
   private String description;
   private Integer duration;
-  private Integer minExperience;
-  private Integer maxExperience;
   private Integer energyCost;
 }

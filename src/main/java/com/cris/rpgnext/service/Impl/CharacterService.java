@@ -1,9 +1,6 @@
 package com.cris.rpgnext.service.Impl;
 
-import com.cris.rpgnext.dto.CharacterDTO;
-import com.cris.rpgnext.dto.CharacterQuestDTO;
-import com.cris.rpgnext.dto.QuestDTO;
-import com.cris.rpgnext.dto.RewardDTO;
+import com.cris.rpgnext.dto.*;
 import com.cris.rpgnext.entity.Character;
 import com.cris.rpgnext.entity.CharacterQuest;
 import com.cris.rpgnext.entity.Item;
@@ -50,17 +47,14 @@ public class CharacterService implements ICharacterService {
             .orElseThrow(() -> new RuntimeException("The founded character is not exist."));
   }
 
-  private void getExperience(Long characterId, Integer experience) {
-    Character character = characterRepository
-            .findById(characterId)
-            .orElseThrow(() -> new RuntimeException("The character does not exist."));
-
+  private Character saveExperienceInCharacter(Character character, Integer experience) {
     Integer updatedExp = character.getExperience() + experience;
     Integer expToNextLevel = character.getLevel().getExpNextLevel();
 
     if (updatedExp < expToNextLevel) {
       character.setExperience(updatedExp);
     } else {
+      // If the experience gained is greater than max experience, the character levels up.
       Level nextLevel = levelService.getNextLevel(character.getLevel());
       character.setLevel(nextLevel);
 
@@ -68,15 +62,13 @@ public class CharacterService implements ICharacterService {
       character.setExperience(exceededExperience);
     }
 
-    characterRepository.save(character);
+    return character;
   }
 
-  private void getItems(Long characterId, List<Item> items) {
-    Character character = getCharacter(characterId);
-
+  private Character saveRewardedItemsInCharacterInventory(Character character, List<Item> items) {
     items.forEach(item -> character.getInventory().getItems().add(item));
 
-    characterRepository.save(character);
+    return character;
   }
 
   @Override
@@ -98,29 +90,45 @@ public class CharacterService implements ICharacterService {
   }
 
   @Override
-  public CharacterQuestDTO completeQuest(Long characterQuestId) throws Exception {
+  public CompletedQuestDTO completeQuest(Long characterQuestId) throws Exception {
     CharacterQuestDTO characterQuestDTO = characterQuestService.getCharacterQuest(characterQuestId);
 
+    // The quest must be IN PROGRESS
     if(characterQuestDTO.getStatus() != QuestStatus.IN_PROGRESS) throw new IncorrectStatusException("Only quests in progress can be completed.");
 
-    LocalDateTime startDate = characterQuestDTO.getStartDate();
-    LocalDateTime actualDate = LocalDateTime.now();
-    Duration duration = Duration.between(startDate, actualDate);
-
+    LocalDateTime questStartDate = characterQuestDTO.getStartDate();
+    LocalDateTime currentDate = LocalDateTime.now();
+    Duration currentQuestDuration = Duration.between(questStartDate, currentDate);
+    long timeOnQuest = currentQuestDuration.getSeconds();
     int questDuration = characterQuestDTO.getQuest().getDuration();
-    long timeInQuest = duration.getSeconds();
 
-    if(timeInQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeInQuest) + " seconds left.");
+    // Quest time must be complete
+    if(timeOnQuest < questDuration) throw new IncorrectStatusException("The quest has not been completed. " + (questDuration - timeOnQuest) + " seconds left.");
 
-    RewardDTO rewardDTO = rewardService.getRewardById(characterQuestDTO.getQuest().getId());
+    RewardDTO questRewards = rewardService.getRewardById(characterQuestDTO.getQuest().getId());
 
-    getExperience(
-            characterQuestDTO.getCharacter().getId(),
-            rewardDTO.getExperience());
+    Long characterId = characterQuestDTO.getCharacter().getId();
+    Character character = getCharacter(characterId);
 
-    !rewardDTO.getItems().isEmpty()
+    // Getting rewards
+    Character characterWithExperience = saveExperienceInCharacter(
+            character,
+            questRewards.getExperience());
 
-    return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
+    Character characterWithExperienceAndItems = saveRewardedItemsInCharacterInventory(
+            characterWithExperience,
+            questRewards.getItems());
+
+    // Save updated character
+    characterRepository.save(characterWithExperienceAndItems);
+    // Save the character's quest as completed
+    characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.COMPLETED);
+
+    CharacterDTO characterDTO = modelMapper.map(character, CharacterDTO.class);
+    return CompletedQuestDTO.builder()
+            .characterDTO(characterDTO)
+            .questStatus(QuestStatus.COMPLETED)
+            .build();
   }
 
   @Override
@@ -132,5 +140,3 @@ public class CharacterService implements ICharacterService {
     return characterQuestService.updateCharacterQuestStatus(characterQuestId, QuestStatus.CANCELED);
   }
 }
-
-
