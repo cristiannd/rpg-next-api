@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Coin {
+public class CoinType {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

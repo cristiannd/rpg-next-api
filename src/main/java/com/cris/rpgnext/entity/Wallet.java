@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.internal.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "wallets")
 @AllArgsConstructor
@@ -26,5 +23,5 @@ public class Wallet {
   private Integer maxWeight;
 
   @OneToMany(mappedBy = "wallet")
-  private Pair<Coin, Integer> coins;
+  private Pair<CoinType, Integer> coins;
 }
