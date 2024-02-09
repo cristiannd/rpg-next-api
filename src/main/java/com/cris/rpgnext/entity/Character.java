@@ -41,4 +41,8 @@ public class Character {
     @OneToOne
     @JoinColumn(name = "inventory_id", nullable = false)
     private Inventory inventory;
+
+    @OneToOne
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
 }

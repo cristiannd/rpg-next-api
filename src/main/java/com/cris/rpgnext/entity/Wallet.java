@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.internal.Pair;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "wallets")
@@ -23,5 +25,8 @@ public class Wallet {
   private Integer maxWeight;
 
   @OneToMany(mappedBy = "wallet")
-  private Pair<CoinType, Integer> coins;
+  private Set<Coin> coins = new HashSet<>();
+
+  @OneToOne(mappedBy = "wallet")
+  private Character character;
 }
