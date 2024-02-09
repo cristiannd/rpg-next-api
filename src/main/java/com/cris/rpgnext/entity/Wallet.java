@@ -5,32 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.modelmapper.internal.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "coins")
+@Table(name = "wallets")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Coin {
+public class Wallet {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false)
-  private String name;
+  private Integer maxWeight;
 
-  @Column(nullable = false)
-  private String description;
-
-  @Column(nullable = false)
-  private Integer value;
-
-  @Column(nullable = false)
-  private Integer weight;
-
-  @ManyToOne
-  @JoinColumn(name = "wallet_id")
-  private Wallet wallet;
+  @OneToMany(mappedBy = "wallet")
+  private Pair<Coin, Integer> coins;
 }
