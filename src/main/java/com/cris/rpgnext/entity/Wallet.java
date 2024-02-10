@@ -24,8 +24,7 @@ public class Wallet {
   @Column(nullable = false)
   private Integer maxWeight;
 
-  @OneToMany(mappedBy = "wallet")
-  private Set<Coin> coins = new HashSet<>();
+  private Integer gold;
 
   @OneToOne(mappedBy = "wallet")
   private Character character;
